@@ -1,0 +1,28 @@
+{
+  "name": "http-code-async",
+  "version": "1.0.0",
+  "description": "throws http-code well formatted (json, html, plain)",
+  "main": "http-code.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "node unit/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karkael64/http-code-async.git"
+  },
+  "keywords": [
+    "Http",
+    "code",
+    "httpcode",
+    "rfc",
+    "multiformat"
+  ],
+  "author": "\"Karkael Haunter\" <karkael@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karkael64/http-code-async/issues"
+  },
+  "homepage": "https://github.com/karkael64/http-code-async#readme"
+}
