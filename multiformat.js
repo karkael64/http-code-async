@@ -26,17 +26,17 @@ class AnswerableMultiformat extends Answerable {
     /**
      * @function getContent
      * @param req {http.IncomingMessage}
-     * @returns {string|Object}
+     * @returns {Promise}
      */
 
-    getContent(req) {
+    async getContent(req) {
         let mime = Answerable.getFilenameMime( req.file );
         if (mime === MIME_JSON)
-            return this.getContentJSON(req);
+            return await this.getContentJSON(req);
         if (mime === MIME_HTML)
-            return this.getContentHTML(req);
+            return await this.getContentHTML(req);
         else
-            return this.getContentPlain(req);
+            return await this.getContentPlain(req);
     }
 }
 

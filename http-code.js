@@ -10,7 +10,7 @@ const httpCode = {
         "message": "Hello World!"
     },
     204: {
-        "title": "No Answerable",
+        "title": "No Content",
         "message": "This file has no content and can't be displayed."
     },
     304: {
@@ -58,7 +58,7 @@ const httpCode = {
 
 /**
  * @class HttpCode is a main class to rule Http requests and send a good object in this motor. For example, a
- * HttpCode 200 send an "OK" status to client, and his body as body response.
+ * HttpCode 200 send an "OK" status to client, and its body as body response.
  */
 
 class HttpCode extends Error {
@@ -77,7 +77,7 @@ class HttpCode extends Error {
     /**
      * @function getTitle returns the HttpCode title corresponding this code or a default value. This is send at "HTTP"
      * header line for example, next to the code.
-     * @returns string
+     * @returns {string}
      */
 
     getTitle() {
@@ -87,7 +87,7 @@ class HttpCode extends Error {
 
     /**
      * @function getMessage returns the body of the HttpCode. The message is also used for the Response body.
-     * @returns string
+     * @returns {string}
      */
 
     getMessage() {
@@ -135,16 +135,16 @@ class HttpCode extends Error {
     getContentHTML() {
         if (HttpCode.DEBUG_MODE) {
             let start = `<h1>${this.getCode()} - ${this.getTitle()}</h1>\n<pre>${this.getMessage()}</pre>\n`,
-                debug = `${start}<pre>${this.getTrace().join('\n')}</pre>`,
+                debug = `${start}<pre>${this.getTrace().join('\n').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>\n`,
                 self = this;
             while (self.getPrevious && ( self = self.getPrevious() )) {
                 if (self instanceof Error) {
-                    debug += `<pre>${self.getMessage()}</pre>`;
-                    debug += `<pre>${self.getTrace().join('\n')}</pre>`;
+                    debug += `<pre>${self.getMessage()}</pre>\n`;
+                    debug += `<pre>${self.getTrace().join('\n').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>\n`;
                 }
                 if (is_object(self)) {
-                    debug += `<pre>${self.constructor.name} (${self.code}): ${self.message}</pre>`;
-                    debug += `<pre>${self.stack}</pre>`;
+                    debug += `<pre>${self.constructor.name} (${self.code}): ${self.message}</pre>\n`;
+                    debug += `<pre>${self.stack.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>\n`;
                 }
             }
             return debug;
@@ -157,7 +157,7 @@ class HttpCode extends Error {
 
     /**
      * @function getContentJSON returns this HttpCode in an object.
-     * @returns object
+     * @returns {object}
      */
 
     getContentJSON() {
@@ -177,7 +177,7 @@ class HttpCode extends Error {
                     obj.previous = {
                         "code": p.code,
                         "message": p.message,
-                        "trace": p.stack
+                        "trace": p.stack.split(/\n\s+/g)
                     };
                 }
             }
@@ -188,9 +188,9 @@ class HttpCode extends Error {
 
     /**
      * @function setHeader set header sent to the client
-     * @param field Object|string
-     * @param value string
-     * @returns HttpCode
+     * @param field {Object|string}
+     * @param value {string|void}
+     * @returns {HttpCode}
      */
 
     setHeader(field, value) {
@@ -206,10 +206,20 @@ class HttpCode extends Error {
 
 
     /**
+     * @function getHeaders returns all headers set here.
+     * @returns {Object}
+     */
+
+    getHeaders() {
+        return this.headers;
+    }
+
+
+    /**
      * @function setCookie set cookie sent to the client
-     * @param field Object|string
-     * @param value string
-     * @returns HttpCode
+     * @param field {Object|string}
+     * @param value {string|void}
+     * @returns {HttpCode}
      */
 
     setCookie(field, value) {
@@ -244,7 +254,7 @@ class HttpCode extends Error {
 
     /**
      * @function getCookiesToString returns a string to build a header
-     * @returns string
+     * @returns {string}
      */
 
     getCookiesToString() {
@@ -257,5 +267,7 @@ class HttpCode extends Error {
 
 HttpCode.DEBUG_MODE = false;
 HttpCode.Error = Error;
+HttpCode.Answerable = Error.Answerable;
+HttpCode.AnswerableMultiformat = Error.AnswerableMultiformat;
 
 module.exports = HttpCode;
