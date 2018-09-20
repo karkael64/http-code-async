@@ -1,4 +1,4 @@
-const mokes = require('./mokes');
+process.exitCode = 0;
 
 console.info("\x1b[1m\x1b[32m", "start tests", "\x1b[0m" );
 
@@ -8,6 +8,6 @@ require('./default-settings');
 require('./args-http-code');
 require('./contents');
 
-setTimeout(function(){
-    console.info("\x1b[1m\x1b[32m", "done", mokes.count(), "\x1b[0m" );
+setTimeout(function () {
+    console.info("\x1b[1m\x1b[32m", "done", require('./mokes').count(), "\x1b[0m");
 }, 100);

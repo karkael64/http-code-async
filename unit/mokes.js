@@ -4,6 +4,7 @@ function assert(el, message) {
     if (!el) {
         console.error("\x1b[1m\x1b[31m", message || "Unit test error", "\x1b[0m");
         console.trace();
+        process.exitCode++;
     }
     count++;
 }
@@ -12,6 +13,7 @@ function should(el, be, message) {
     if (el !== be) {
         console.error("\x1b[1m\x1b[31m", message || "Unit test error", "\x1b[0m");
         console.trace();
+        process.exitCode++;
     }
     count++;
 }
@@ -20,6 +22,7 @@ async function returns(fn, be, message) {
     if (!(typeof fn === 'function')) {
         console.error("\x1b[1m\x1b[31m", message || "Unit test error: first parameter not a function", "\x1b[0m");
         console.trace();
+        process.exitCode++;
     }
     else {
 
@@ -30,11 +33,13 @@ async function returns(fn, be, message) {
         catch (err) {
             console.warn("\x1b[1m\x1b[31m", message || "Unit test error: function thrown unexpected error", "\x1b[0m");
             console.trace();
+            process.exitCode++;
         }
 
         if (res !== be) {
             console.warn("\x1b[1m\x1b[31m", message || "Unit test error", "\x1b[0m");
             console.trace();
+            process.exitCode++;
         }
     }
     count++;
@@ -44,6 +49,7 @@ async function throws(fn, be, message) {
     if (!fn || !(fn instanceof Function)) {
         console.warn("\x1b[1m\x1b[31m", message || "Unit test error: first parameter not a function", "\x1b[0m");
         console.trace();
+        process.exitCode++;
     }
     else {
 
@@ -57,6 +63,7 @@ async function throws(fn, be, message) {
         if (err && !be && (err === be) && !(err instanceof be)) {
             console.warn("\x1b[1m\x1b[31m", message || "Unit test error", "\x1b[0m");
             console.trace();
+            process.exitCode++;
         }
     }
     count++;
