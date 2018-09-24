@@ -199,7 +199,21 @@ class HttpCode extends Error {
                 this.setHeader(f, field[f]);
         }
         else {
-            this.headers[field] = value;
+            let key = field.toUpperCase();
+            this.headers[key] = {[field]: value};
+        }
+        return this;
+    }
+
+    addHeader(field, value) {
+        if (field instanceof Object) {
+            for (let f in field)
+                this.setHeader(f, field[f]);
+        }
+        else {
+            let key = field.toUpperCase();
+            if (!this.headers[key])
+                this.headers[key] = {[field]: value};
         }
         return this;
     }
@@ -211,7 +225,14 @@ class HttpCode extends Error {
      */
 
     getHeaders() {
-        return this.headers;
+        let headers = {};
+        for (let key in this.headers) {
+            let header = this.headers[key];
+            for (let field in header) {
+                headers[field] = header[field];
+            }
+        }
+        return headers;
     }
 
 
