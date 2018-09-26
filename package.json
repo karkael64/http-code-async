@@ -1,6 +1,6 @@
 {
   "name": "http-code-async",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "throws http-code well formatted (json, html, plain)",
   "main": "http-code.js",
   "dependencies": {},

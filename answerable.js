@@ -110,8 +110,8 @@ const mimes = {
 };
 
 /**
- * @class Controller is a class which is used to create some content, and which can be send and read by the motor. This
- * class is here an abstract class, please create a child class with a getContent method
+ * @class <Answerable> is a class which is used to create some content, and which can be send and read by the motor.
+ * This class is here an abstract class, please create a child class with a <getContent> method
  */
 
 class Answerable {
@@ -126,14 +126,16 @@ class Answerable {
             throw new Error("This instance of Answerable has no getContent function!");
     }
 
+
     /**
-     * @function getFilenameMime split a filename and read at the extension at the end. Search in const ${mime} the
-     * corresponding mime.
-     * @param filename string
+     * @method <getFilenameMime> split a filename and read the extension at the end (before ? and #). Search in const
+     *      ${mimes} the corresponding mime, if not found returns "text/plain" mime.
+     * @param filename {string}
      * @returns {*}
      */
 
     static getFilenameMime(filename) {
+        filename = filename.replace(/[?#].*$/, '').replace(/\/$/, '/index.html');
         let t;
         if (is_string(filename) && ( t = filename.match(/\w+$/) ) && ( t = t[0] ))
             for (let m in mimes) {
@@ -143,9 +145,10 @@ class Answerable {
         return "text/plain";
     }
 
+
     /**
-     * @function bodyEtag hash the body
-     * @param body
+     * @method <bodyEtag> hash the body
+     * @param body {string}
      * @returns {*}
      */
 

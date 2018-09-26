@@ -9,6 +9,14 @@ const MIME_HTML = "text/html";
 
 class AnswerableMultiformat extends Answerable {
 
+    /**
+     * @warn This class can't be instanciated as if, a child class should have getContentPlain, getContentHTML &
+     *      getContentJSON as methods.
+     * <getContentPlain> {async function({http.IncomingMessage}, {http.ServerResponse})}
+     * <getContentHTML> {async function({http.IncomingMessage}, {http.ServerResponse})}
+     * <getContentJSON> {async function({http.IncomingMessage}, {http.ServerResponse})}
+     */
+
     constructor() {
         super();
 
@@ -24,13 +32,13 @@ class AnswerableMultiformat extends Answerable {
 
 
     /**
-     * @function getContent
+     * @method <getContent>
      * @param req {http.IncomingMessage}
      * @returns {Promise.<string>}
      */
 
     async getContent(req) {
-        let mime = Answerable.getFilenameMime( req.file );
+        let mime = Answerable.getFilenameMime(req.url);
         if (mime === MIME_JSON)
             return JSON.stringify(await this.getContentJSON(req));
         if (mime === MIME_HTML)

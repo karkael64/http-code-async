@@ -75,7 +75,7 @@ class HttpCode extends Error {
 
 
     /**
-     * @function getTitle returns the HttpCode title corresponding this code or a default value. This is send at "HTTP"
+     * @method <getTitle> returns the HttpCode title corresponding this code or a default value. This is send at "HTTP"
      * header line for example, next to the code.
      * @returns {string}
      */
@@ -86,7 +86,7 @@ class HttpCode extends Error {
 
 
     /**
-     * @function getMessage returns the body of the HttpCode. The message is also used for the Response body.
+     * @method <getMessage> returns the body of the HttpCode. The message is also used for the Response body.
      * @returns {string}
      */
 
@@ -99,7 +99,7 @@ class HttpCode extends Error {
 
 
     /**
-     * @function getContentPlain returns this HttpCode in a string formatted as a 'text/plain' mime.
+     * @method <getContentPlain> returns this HttpCode in a string formatted as a 'text/plain' mime.
      * @returns {string}
      */
 
@@ -128,7 +128,7 @@ class HttpCode extends Error {
 
 
     /**
-     * @function getContentHTML returns this HttpCode in a string formatted as a 'text/html' mime.
+     * @method <getContentHTML> returns this HttpCode in a string formatted as a 'text/html' mime.
      * @returns {string}
      */
 
@@ -156,7 +156,7 @@ class HttpCode extends Error {
 
 
     /**
-     * @function getContentJSON returns this HttpCode in an object.
+     * @method <getContentJSON> returns this HttpCode in an object.
      * @returns {object}
      */
 
@@ -187,7 +187,7 @@ class HttpCode extends Error {
 
 
     /**
-     * @function setHeader set header sent to the client
+     * @method <setHeader> set header sent to the client
      * @param field {Object|string}
      * @param value {string|void}
      * @returns {HttpCode}
@@ -205,10 +205,18 @@ class HttpCode extends Error {
         return this;
     }
 
+
+    /**
+     * @method <addHeader> set header sent to the client if not exists yet
+     * @param field {Object|string}
+     * @param value {string|void}
+     * @returns {HttpCode}
+     */
+
     addHeader(field, value) {
         if (field instanceof Object) {
             for (let f in field)
-                this.setHeader(f, field[f]);
+                this.addHeader(f, field[f]);
         }
         else {
             let key = field.toUpperCase();
@@ -220,7 +228,7 @@ class HttpCode extends Error {
 
 
     /**
-     * @function getHeaders returns all headers set here.
+     * @method <getHeaders> returns all headers set here.
      * @returns {Object}
      */
 
@@ -237,7 +245,7 @@ class HttpCode extends Error {
 
 
     /**
-     * @function setCookie set cookie sent to the client
+     * @method <setCookie> set cookie sent to the client
      * @param field {Object|string}
      * @param value {string|void}
      * @returns {HttpCode}
@@ -256,7 +264,7 @@ class HttpCode extends Error {
 
 
     /**
-     * @function setCookiesOptions set all cookies options
+     * @method <setCookiesOptions> set all cookies options
      * @param expires {Date}
      * @param domain {string}
      * @param path {string}
@@ -274,7 +282,7 @@ class HttpCode extends Error {
 
 
     /**
-     * @function getCookiesToString returns a string to build a header
+     * @method <getCookiesToString> returns a string to build a header
      * @returns {string}
      */
 

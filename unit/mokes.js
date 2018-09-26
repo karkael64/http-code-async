@@ -78,9 +78,9 @@ function stub(into, field, stub) {
 }
 
 class IncomingMessage {
-    constructor(method, file, headers, body) {
+    constructor(method, url, headers, body) {
         this.method = method || "GET";
-        this.file = file || ".";
+        this.url = url || ".";
         this.headers = headers || {};
         this.data = body || ["chunk1", "chunk2", "last_chunk"];
     }

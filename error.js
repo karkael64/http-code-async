@@ -1,4 +1,5 @@
-const AnswerableMultiformat = require('./multiformat');
+const AnswerableMultiformat = require('./multiformat'),
+    Answerable = AnswerableMultiformat.Answerable;
 
 function is_object(el) {
     return (typeof el === 'object') && (el !== null);
@@ -18,8 +19,8 @@ class AnswerableError extends AnswerableMultiformat {
     }
 
     /**
-     * @function getCode returns the Error code.
-     * @returns number
+     * @method <getCode> returns the Error code.
+     * @returns {number}
      */
 
     getCode() {
@@ -28,8 +29,8 @@ class AnswerableError extends AnswerableMultiformat {
 
 
     /**
-     * @function getMessage returns the body of the Error. The message is also used for the Response body.
-     * @returns string
+     * @method <getMessage> returns the body of the Error. The message is also used for the Response body.
+     * @returns {string}
      */
 
     getMessage() {
@@ -38,7 +39,7 @@ class AnswerableError extends AnswerableMultiformat {
 
 
     /**
-     * @function getTrace is used to return each lines of the stack at the construction of Error.
+     * @method <getTrace> is used to return each lines of the stack at the construction of Error.
      * @returns {Array}
      */
 
@@ -55,8 +56,8 @@ class AnswerableError extends AnswerableMultiformat {
 
 
     /**
-     * @function getPrevious returns an Error or a Error created before this one.
-     * @returns Error.
+     * @method <getPrevious> returns an Error or a Error created before this one.
+     * @returns {Error}
      */
 
     getPrevious() {
@@ -65,7 +66,7 @@ class AnswerableError extends AnswerableMultiformat {
 
 
     /**
-     * @function getContentPlain returns this Error in a string formatted as a 'text/plain' mime.
+     * @method <getContentPlain> returns this Error in a string formatted as a 'text/plain' mime.
      * @returns {string}
      */
 
@@ -89,7 +90,7 @@ class AnswerableError extends AnswerableMultiformat {
 
 
     /**
-     * @function getContentHTML returns this instance as a string in HTML format.
+     * @method <getContentHTML> returns this instance as a string in HTML format.
      * @returns {string}
      */
 
@@ -112,7 +113,7 @@ class AnswerableError extends AnswerableMultiformat {
 
 
     /**
-     * @function getContentJSON returns this instance as a JS object.
+     * @method <getContentJSON> returns this instance as a JS object.
      * @returns {{code: (number|*), message: string, stack: *, previous: *}}
      */
 
@@ -135,6 +136,19 @@ class AnswerableError extends AnswerableMultiformat {
             "stack": this.getTrace(),
             "previous": previous
         };
+    }
+
+
+    /**
+     * @method <getContent> set mime then return content formatted.
+     * @param req {http.IncomingMessage}
+     * @returns {Promise.<string>}
+     * @override {AnswerableMultiformat}
+     */
+
+    async getContent(req) {
+        this.addHeader('Content-Type', Answerable.getFilenameMime(req.url) + "; charset=utf-8");
+        return await super.getContent(req);
     }
 }
 
