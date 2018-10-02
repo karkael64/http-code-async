@@ -196,7 +196,8 @@ class HttpCode extends Error {
     setHeader(field, value) {
         if (field instanceof Object) {
             for (let f in field)
-                this.setHeader(f, field[f]);
+                if (field.hasOwnProperty(f))
+                    this.setHeader(f, field[f]);
         }
         else {
             let key = field.toUpperCase();
@@ -216,7 +217,8 @@ class HttpCode extends Error {
     addHeader(field, value) {
         if (field instanceof Object) {
             for (let f in field)
-                this.addHeader(f, field[f]);
+                if (field.hasOwnProperty(f))
+                    this.addHeader(f, field[f]);
         }
         else {
             let key = field.toUpperCase();
@@ -228,6 +230,23 @@ class HttpCode extends Error {
 
 
     /**
+     * @method <getHeader> returns selected header set here.
+     * @param field {string}
+     * @returns {Object}
+     */
+
+    getHeader(field) {
+        let header = this.headers[field.toUpperCase()];
+        if (header) {
+            for (let field in header) {
+                if (header.hasOwnProperty(field))
+                    return header[field];
+            }
+        }
+    }
+
+
+    /**
      * @method <getHeaders> returns all headers set here.
      * @returns {Object}
      */
@@ -235,9 +254,12 @@ class HttpCode extends Error {
     getHeaders() {
         let headers = {};
         for (let key in this.headers) {
-            let header = this.headers[key];
-            for (let field in header) {
-                headers[field] = header[field];
+            if (this.headers.hasOwnProperty(key)) {
+                let header = this.headers[key];
+                for (let field in header) {
+                    if (header.hasOwnProperty(field))
+                        headers[field] = header[field];
+                }
             }
         }
         return headers;
@@ -254,7 +276,8 @@ class HttpCode extends Error {
     setCookie(field, value) {
         if (field instanceof Object) {
             for (let f in field)
-                this.setCookie(f, field[f]);
+                if (field.hasOwnProperty(f))
+                    this.setCookie(f, field[f]);
         }
         else {
             this.cookies[field] = value;
@@ -289,7 +312,8 @@ class HttpCode extends Error {
     getCookiesToString() {
         let sum = [];
         for (let c in this.cookies)
-            sum.push(c.replace(/[=;\\]/, '\\$0') + '=' + this.cookies[c].replace(/[=;\\]/, '\\$0'));
+            if (this.cookies.hasOwnProperty(c))
+                sum.push(c.replace(/[=;\\]/, '\\$0') + '=' + this.cookies[c].replace(/[=;\\]/, '\\$0'));
         return sum.join('; ');
     }
 }

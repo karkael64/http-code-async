@@ -8,10 +8,6 @@ function is_function(el) {
     return (typeof el === 'function');
 }
 
-function is_object(el) {
-    return (typeof el === 'object') && (el !== null);
-}
-
 const mimes = {
     "application": {
         "js": "application/javascript",
